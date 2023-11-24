@@ -1,6 +1,7 @@
 from grid import *
 #from main import *
 
+#fonction qui transforme A1 en coordonée 00
 def cellNameTOIndex(coordonnee):
     while True:
         try:
@@ -19,10 +20,9 @@ def cellNameTOIndex(coordonnee):
                 print("Coordonnées invalides.")
         except ValueError:
             print("Coordonnées invalides. Assurez-vous que la colonne est une lettre de A à Z et la ligne est un nombre de 1 à 26.")
-    coordonnee = input("Entrez les coordonnées (ex: A1): ").upper()
-    return coordonnee
 
-# Fonction pour demander et envoyer un missile
+
+# Fonction pour demander ou envoyer missile
 def askSendMissile():
     print("debut fonction ask")
     coordonnee = input("Entrez les coordonnées (ex: A1): ").upper()

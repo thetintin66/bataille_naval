@@ -6,10 +6,6 @@ def main():
     global grid
     compteurbateau = 17
 
-    create_grid()  # Initialise la grille
-
-    # place_ships()  # Place les bateaux dans la grille
-
     while True:
         from grid import grid
         coordonnee = askSendMissile()
@@ -22,8 +18,7 @@ def main():
 
         if etat[0]:
             print("Game over")
-            break  # Sortir de la boucle si la condition de fin de partie est remplie
+            break  
 
 
-# Lancement du jeu
-#main()
+

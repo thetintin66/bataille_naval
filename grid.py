@@ -1,4 +1,5 @@
 import random
+from game import *
 
 # Variables globales pour la grille et ses dimensions
 grid = [[' ' for _ in range(8)] for _ in range(8)]
@@ -27,10 +28,107 @@ def create_grid():
             if colonne > 26:
                 colonne = 26
             grid = [[' ' for _ in range(colonne)] for _ in range(ligne)]
-            place_ships()
             break
         except ValueError:
             print("Veuillez entrer des nombres entiers pour les dimensions de la grille.")
+    printGrid(grid)
+
+
+#fonction qui permet a lutilisateur de placer les bateaux manuellement
+def place_ship_manually():
+    global grid
+    
+    ship_sizes = {
+        "porte_avions": 5,
+        "croiseur": 4,
+        "contre_torpilleur": 3,
+        "torpilleur": 2
+    }
+    
+    for ship_type, size in ship_sizes.items():
+        print(f"Placement du bateau de type {ship_type} (taille : {size})")
+        while True:
+           
+            start_cell = input("Entrez la cellule de départ (ex: A1): ").upper()
+            direction = input("Entrez la direction (G pour gauche, D pour droit, B pour bas, T pour haut): ").upper()
+
+            if len(start_cell) >= 2:
+                column = start_cell[0]
+                row = int(start_cell[1:])
+                
+                if column.isalpha() and column.isupper() and 1 <= row <= 10:
+                    col = ord(column) - ord('A')
+                    row -= 1
+                else:
+                    print("Coordonnées invalides. Assurez-vous que la colonne est une lettre de A à J et la ligne est un nombre de 1 à 10.")
+                    continue
+
+            valid_placement = True
+
+            if direction == "G":
+                if col - size < 0:
+                    valid_placement = False
+                else:
+                    for i in range(size):
+                        if grid[row][col - i] != " ":
+                            valid_placement = False
+                            break
+
+                if valid_placement:
+                    for i in range(size):
+                        grid[row][col - i] = "b"
+                    break
+
+            elif direction == "D":
+                if col + size > 10:
+                    valid_placement = False
+                else:
+                    for i in range(size):
+                        if grid[row][col + i] != " ":
+                            valid_placement = False
+                            break
+
+                if valid_placement:
+                    for i in range(size):
+                        grid[row][col + i] = "b"
+                    break
+
+            elif direction == "B":
+                if row + size > 10:
+                    valid_placement = False
+                else:
+                    for i in range(size):
+                        if grid[row + i][col] != " ":
+                            valid_placement = False
+                            break
+
+                if valid_placement:
+                    for i in range(size):
+                        grid[row + i][col] = "b"
+                    break
+
+            elif direction == "T":
+                if row - size < 0:
+                    valid_placement = False
+                else:
+                    for i in range(size):
+                        if grid[row - i][col] != " ":
+                            valid_placement = False
+                            break
+
+                if valid_placement:
+                    for i in range(size):
+                        grid[row - i][col] = "b"
+                    break
+
+            else:
+                print("Direction invalide. Entrez G pour gauche, D pour droit, B pour bas, T pour haut.")
+                
+            if not valid_placement:
+                print("Une autre embarcation est déjà présente à cet endroit. Choisissez une autre direction ou une autre cellule de départ.")
+        printGrid(grid)
+
+
 
 
 # Fonction pour placer tous les bateaux dans la grille
